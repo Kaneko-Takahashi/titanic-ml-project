@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyCharm
+.idea/
+
+# VS Code / Cursor
+.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data files (大きいファイルの場合はコメントを外す)
+# data/*.csv
+# data/*.json
+
+# Output files
+outputs/*.png
+outputs/*.jpg
+outputs/*.pdf
+
+# Environment variables
+.env
+
+# Python tools
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
