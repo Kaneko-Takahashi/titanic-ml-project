@@ -46,11 +46,6 @@ Thumbs.db
 # data/*.csv
 # data/*.json
 
-# Output files
-outputs/*.png
-outputs/*.jpg
-outputs/*.pdf
-
 # Environment variables
 .env
 
@@ -59,3 +54,8 @@ outputs/*.pdf
 .mypy_cache/
 .coverage
 htmlcov/
+
+# Output files
+# outputs/*.png
+# outputs/*.jpg
+# outputs/*.pdf
