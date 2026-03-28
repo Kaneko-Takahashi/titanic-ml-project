@@ -1,11 +1,31 @@
-```markdown
 # 🚢 Titanic ML Project - タイタニック生存予測
 
 機械学習（scikit-learn）を使用したタイタニック号の乗客生存予測プロジェクト
 
 ## 📋 プロジェクト概要
 
-Kaggleの有名なデータセット「Titanic」を使用して、二値分類（生存/死亡）の機械学習モデルを構築します。
+Kaggleの有名なデータセット「Titanic」を使用して、二値分類（生存/死亡）の機械学習モデルを構築しました。
+データの探索・前処理・モデル構築・評価・改善までの一連の機械学習パイプラインを実践しています。
+
+## 📈 最終結果
+
+| モデル | 正解率 |
+|--------|--------|
+| ロジスティック回帰（ベース） | 79.9% |
+| ランダムフォレスト（ベース） | 82.1% |
+| ロジスティック回帰（特徴量追加） | 80.4% |
+| ランダムフォレスト（特徴量追加） | 81.6% |
+| **ランダムフォレスト（最適化済み）** | **83.8%** |
+
+### 特徴量の重要度 TOP5
+
+| 順位 | 特徴量 | 説明 |
+|------|--------|------|
+| 🥇 1位 | sex | 性別（女性が優先的に救助された） |
+| 🥈 2位 | fare | 運賃（上流クラスほど生存率が高い） |
+| 🥉 3位 | fare_per_person | 一人当たりの運賃（追加した特徴量） |
+| 4位 | age | 年齢（子供は生存率が高い） |
+| 5位 | pclass | チケットクラス |
 
 ## 🛠️ 環境構築手順
 
@@ -45,19 +65,21 @@ pip install -r requirements.txt
 
 ```
 titanic-ml-project/
-├── data/ # データファイル格納
-├── notebooks/ # Jupyter Notebook
-│ ├── 01_setup_test.ipynb # 環境確認用
-│ ├── 02_data_exploration.ipynb # データ探索・可視化
-│ └── 03_preprocessing.ipynb # 前処理・モデル構築・評価
-├── src/ # Pythonスクリプト
-├── outputs/ # 出力結果（グラフなど）
-│ ├── age_distribution.png # 年齢分布グラフ
-│ ├── survival_by_gender_class.png # 性別・クラス別生存率
-│ └── confusion_matrix.png # 混同行列グラフ
-├── .gitignore # Git管理除外設定
-├── requirements.txt # 必要ライブラリ一覧
-└── README.md # このファイル
+├── data/                              # データファイル格納
+├── notebooks/                         # Jupyter Notebook
+│   ├── 01_setup_test.ipynb           # 環境確認用
+│   ├── 02_data_exploration.ipynb     # データ探索・可視化
+│   ├── 03_preprocessing.ipynb        # 前処理・モデル構築・評価
+│   └── 04_improvement.ipynb          # 改善（特徴量追加・パラメータ最適化）
+├── src/                               # Pythonスクリプト
+├── outputs/                           # 出力結果（グラフなど）
+│   ├── age_distribution.png          # 年齢分布グラフ
+│   ├── survival_by_gender_class.png  # 性別・クラス別生存率
+│   ├── confusion_matrix.png          # 混同行列グラフ
+│   └── feature_importance.png        # 特徴量重要度グラフ
+├── .gitignore                         # Git管理除外設定
+├── requirements.txt                   # 必要ライブラリ一覧
+└── README.md                          # このファイル
 ```
 
 ## 🔧 使用技術
@@ -79,23 +101,35 @@ titanic-ml-project/
 - [x] STEP 3: 前処理（特徴量エンジニアリング）
 - [x] STEP 4: モデル構築（ロジスティック回帰・ランダムフォレスト）
 - [x] STEP 5: 評価（混同行列・各種スコア）
-- [ ] STEP 6: 改善（ハイパーパラメータチューニング）
+- [x] STEP 6: 改善（ハイパーパラメータチューニング）
 
-## 📈 分析で判明した傾向
+## 🔍 分析で判明した傾向
 
 - 全体の生存率は約38.4%
-- 女性の生存率が男性より大幅に高い
+- 女性の生存率が男性より大幅に高い（Women and children first）
 - 上流クラス（1st）ほど生存率が高い
-- 子供の生存率が高い（Women and children first）
-- 年齢（age）に欠損値あり → 前処理で対応が必要
+- 子供の生存率が高い
+- 運賃が高い乗客ほど生存率が高い
 
-## 🎯 学習目標
+## 🔧 実施した改善
 
-1. **分類問題**の基本的な流れを理解
-2. **scikit-learn**の実践的な使い方を習得
-3. **前処理**の重要性と手法を学習
-4. **モデル評価**の各種指標を理解
-5. **GitHub**でのプロジェクト管理を実践
+### 特徴量エンジニアリング
+- `family_size`: 家族の人数（兄弟配偶者 + 親子 + 自分）
+- `fare_per_person`: 一人当たりの運賃
+- `is_child`: 子供かどうか（15歳未満）
+
+### ハイパーパラメータ最適化
+- GridSearchCVによる自動探索
+- 最適パラメータ: max_depth=7, min_samples_leaf=1, min_samples_split=2, n_estimators=50
+- ベースライン 82.1% → 最終モデル 83.8%（+1.7%改善）
+
+## 🎯 学んだこと
+
+1. **データ前処理**の重要性（欠損値補完・エンコーディング）
+2. **特徴量エンジニアリング**でモデル精度を改善できること
+3. **GridSearchCV**でハイパーパラメータの最適化を自動化できること
+4. **複数の評価指標**（Accuracy/Precision/Recall/F1）で多角的に評価する必要性
+5. **Git/GitHub**でのプロジェクト管理の実践
 
 ## 📝 License
 
